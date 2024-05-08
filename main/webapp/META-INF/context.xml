@@ -1,0 +1,12 @@
+<Context>
+	<Resource name="jdbc/MysqlDB"
+			auth = "Container"
+			driverClassName="com.mysql.jdbc.Driver"
+			type="javax.sql.DataSource"
+			url="jdbc:mysql://118.37.94.80:521/apeach?serverTimezone=UTC"
+			username="root"
+			password="apeachgood"
+			maxActive="20"
+			maxIdle="10"
+			maxWait="-1"/>
+</Context>
