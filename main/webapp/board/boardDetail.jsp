@@ -87,8 +87,8 @@
 		</span><br>
 		<div style="margin-top:10px;">
 		<a href="./BoardList.bo" name="prev" class="btn btn-secondary">목록</a> 
-		<a class="btn btn-warning">답변</a>
-		<a class="btn btn-success">수정</a>
+		<a href="./BoardReplyAction.bo?num=<%=board.getBOARD_NUM() %>"class="btn btn-warning">답변</a>
+		<a href="./BoardModify.bo?num=<%=board.getBOARD_NUM() %>" class="btn btn-success">수정</a>
 		<a href="./BoardDelete.bo?num=<%=board.getBOARD_NUM() %>" class="btn btn-danger">삭제</a> 
 		</div>
 	</form>

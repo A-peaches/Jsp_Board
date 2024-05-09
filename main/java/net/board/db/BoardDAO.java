@@ -11,18 +11,18 @@ public class BoardDAO {//게시판 db를 처리하는 클래스
 	PreparedStatement pstmt;
 	ResultSet rs;
 	
+	DataSource ds;
 	public BoardDAO() {
-		Context init;
 		try {
-			init = new InitialContext();
-			DataSource ds = (DataSource) init.lookup("java:comp/env/jdbc/MysqlDB");
-			con = ds.getConnection();
-			System.out.println("DB연결 성공!");
-		} catch (Exception e) {
-			System.out.println("DB연결 실패");
+			Context init = new InitialContext();
+			ds = (DataSource) init.lookup("java:comp/env/jdbc/MysqlDB");
+			
+			//con = ds.getConnection();
+			System.out.println("DB 연결 성공 !");
+		} catch (Exception ex) {
+			System.out.println("DB 연결 실패 : " + ex);
 			return;
 		}
-
 	}
 	
 	// 글의 개수 구하기
@@ -30,6 +30,8 @@ public class BoardDAO {//게시판 db를 처리하는 클래스
 				int x = 0;
 
 				try {
+					con = ds.getConnection();
+					
 					pstmt = con.prepareStatement("select count(*) from board");
 					rs = pstmt.executeQuery();
 
@@ -48,7 +50,13 @@ public class BoardDAO {//게시판 db를 처리하는 클래스
 						try {
 							pstmt.close();
 						} catch (SQLException ex) {
-						}
+					}
+					if(con != null)
+						try {
+							con.close();
+						} catch(SQLException ex) {
+							
+					}
 				}
 				return x;
 			}
@@ -65,6 +73,9 @@ public class BoardDAO {//게시판 db를 처리하는 클래스
 				int startrow = (page - 1) * 10 + 1; // 읽기 시작할 row번호
 				int endrow = startrow + limit - 1; // 읽기 마지막 row번호.
 				try {
+					
+					con = ds.getConnection();
+					
 					pstmt = con.prepareStatement(board_list_sql);
 					pstmt.setInt(1, startrow);
 					pstmt.setInt(2, endrow);
@@ -88,7 +99,7 @@ public class BoardDAO {//게시판 db를 처리하는 클래스
 					return list;
 				} catch (Exception ex) {
 					System.out.println("getBoardList 에러 : " + ex);
-				} finally {
+				}finally {
 					if (rs != null)
 						try {
 							rs.close();
@@ -98,7 +109,13 @@ public class BoardDAO {//게시판 db를 처리하는 클래스
 						try {
 							pstmt.close();
 						} catch (SQLException ex) {
-						}
+					}
+					if(con != null)
+						try {
+							con.close();
+						} catch(SQLException ex) {
+							
+					}
 				}
 				return list;			// 오라클->코끼리 list로 바꿔줘야 함
 			}
@@ -111,6 +128,7 @@ public class BoardDAO {//게시판 db를 처리하는 클래스
 				int result = 0;
 				System.out.println("여기까지오나용?");
 				try {
+					con = ds.getConnection();
 					pstmt = con.prepareStatement("select max(board_num) from board");
 					rs = pstmt.executeQuery(); //게시글 번호 가장 최근꺼 가지고오기
 			
@@ -143,11 +161,24 @@ public class BoardDAO {//게시판 db를 처리하는 클래스
 				} catch (SQLException e) {
 					System.out.println("boardInsert 에러 : "+ e);
 				} finally {
-					if(rs!=null) try {rs.close();}catch(SQLException ex) {}
-					if(pstmt!=null) try {pstmt.close();}catch(SQLException ex) {}
+					if (rs != null)
+						try {
+							rs.close();
+						} catch (SQLException ex) {
+						}
+					if (pstmt != null)
+						try {
+							pstmt.close();
+						} catch (SQLException ex) {
+					}
+					if(con != null)
+						try {
+							con.close();
+						} catch(SQLException ex) {
+							
+					}
 				}
-				
-				
+		
 			
 				return true;
 			}
@@ -157,11 +188,29 @@ public class BoardDAO {//게시판 db를 처리하는 클래스
 			public void setReadCountUpdate(int num) {
 				String sql="update board set BOARD_READCOUNT = BOARD_READCOUNT+1 where BOARD_NUM = ?";
 				try{
+					con = ds.getConnection();
 					pstmt=con.prepareStatement(sql);
 					pstmt.setInt(1, num);
 					pstmt.executeUpdate();
 				}catch(SQLException ex){
 					System.out.println("setReadCountUpdate 에러 : "+ex);
+				}finally {
+					if (rs != null)
+						try {
+							rs.close();
+						} catch (SQLException ex) {
+						}
+					if (pstmt != null)
+						try {
+							pstmt.close();
+						} catch (SQLException ex) {
+					}
+					if(con != null)
+						try {
+							con.close();
+						} catch(SQLException ex) {
+							
+					}
 				}
 			}
 
@@ -170,6 +219,7 @@ public class BoardDAO {//게시판 db를 처리하는 클래스
 				BoardBean board = null;
 				
 				try {
+					con = ds.getConnection();
 					pstmt = con.prepareStatement(
 							"select * from board where BOARD_NUM = ?");
 					pstmt.setInt(1, num);
@@ -194,9 +244,211 @@ public class BoardDAO {//게시판 db를 처리하는 클래스
 				} catch (SQLException e) {
 					System.out.println("getDetail 에러 :" +e);
 				} finally {
-					if(rs!=null)try{rs.close();}catch(SQLException ex){}
-					if(pstmt !=null)try{pstmt.close();}catch(SQLException ex){}
+					if (rs != null)
+						try {
+							rs.close();
+						} catch (SQLException ex) {
+						}
+					if (pstmt != null)
+						try {
+							pstmt.close();
+						} catch (SQLException ex) {
+					}
+					if(con != null)
+						try {
+							con.close();
+						} catch(SQLException ex) {
+							
+					}
 				}
 				return null;
+			}
+
+			public boolean boardDelete(int num) {
+
+				String sql = "delete from board where BOARD_NUM = ?";
+				
+				int result = 0;
+				
+				try {
+					con = ds.getConnection();
+					pstmt=con.prepareStatement(sql);
+					pstmt.setInt(1, num);
+					result = pstmt.executeUpdate();
+					if(result==0) return false;
+					
+					return true;
+				} catch (SQLException e) {
+					System.out.println("boardDelete 에러 : "+e);
+				}finally {
+					if (rs != null)
+						try {
+							rs.close();
+						} catch (SQLException ex) {
+						}
+					if (pstmt != null)
+						try {
+							pstmt.close();
+						} catch (SQLException ex) {
+					}
+					if(con != null)
+						try {
+							con.close();
+						} catch(SQLException ex) {
+							
+					}
+				}
+
+	
+				
+				return false;
+			}
+
+			public boolean isBoardWriter(int num, String pass) {
+				
+				String sql = "select BOARD_PASS from board where BOARD_NUM = ?";
+				
+				try {
+					con = ds.getConnection();
+					pstmt = con.prepareStatement(sql);
+					pstmt.setInt(1, num);
+					rs = pstmt.executeQuery();
+					rs.next();
+					
+					if(pass.equals(rs.getString("BOARD_PASS"))) {
+						return true;
+					}
+				} catch(SQLException ex){
+					System.out.println("isBoardWriter 에러 : "+ex);
+				}finally {
+					if (rs != null)
+						try {
+							rs.close();
+						} catch (SQLException ex) {
+						}
+					if (pstmt != null)
+						try {
+							pstmt.close();
+						} catch (SQLException ex) {
+					}
+					if(con != null)
+						try {
+							con.close();
+						} catch(SQLException ex) {
+							
+					}
+				}
+				return false;
+	
+			}
+
+			public boolean boardModify(BoardBean boardData) {
+				String sql ="update board set BOARD_NAME=?,BOARD_SUBJECT=?,BOARD_CONTENT=? where BOARD_NUM=?";
+				
+				try {
+					con = ds.getConnection();
+					pstmt = con.prepareStatement(sql);
+					pstmt.setString(1,boardData.getBOARD_NAME());
+					pstmt.setString(2,boardData.getBOARD_SUBJECT());
+					pstmt.setString(3,boardData.getBOARD_CONTENT());
+					pstmt.setInt(4,boardData.getBOARD_NUM());
+					
+					pstmt.executeUpdate();
+					return true;
+					
+				} catch(Exception ex){
+					System.out.println("boardModify 에러 : " + ex);
+				}finally {
+					if (rs != null)
+						try {
+							rs.close();
+						} catch (SQLException ex) {
+						}
+					if (pstmt != null)
+						try {
+							pstmt.close();
+						} catch (SQLException ex) {
+					}
+					if(con != null)
+						try {
+							con.close();
+						} catch(SQLException ex) {
+							
+					}
+				}
+				return false;
+			}
+
+			public int boardReply(BoardBean board) {
+				
+				String board_max_sql="select max(board_num) from board";
+				String sql="";
+				int num =0;
+				int result = 0;
+				
+				int re_ref = board.getBOARD_RE_REF();
+				int re_lev = board.getBOARD_RE_LEV();
+				int re_seq = board.getBOARD_RE_SEQ();
+				
+				
+				try {
+					con = ds.getConnection();
+					pstmt = con.prepareStatement(board_max_sql);
+					rs = pstmt.executeQuery();
+					if(rs.next())num=rs.getInt(1)+1;
+					else num = 1;
+					
+					sql = "update board set BOARD_RE_SEQ = BOARD_RE_SEQ+1 where BOARD_RE_REF=? "
+							+ "and BOARD_RE_SEQ>?";
+					//답글 개수가 증가하여 시퀀스 증가 ?
+					pstmt = con.prepareStatement(sql);
+					pstmt.setInt(1,re_ref);
+					pstmt.setInt(2,re_seq);
+					result=pstmt.executeUpdate();
+					
+					re_seq = re_seq + 1;
+					re_lev = re_lev+1;
+					
+					sql="insert into board (BOARD_NUM,BOARD_NAME,BOARD_PASS,BOARD_SUBJECT,"
+					+"BOARD_CONTENT, BOARD_FILE,BOARD_RE_REF,BOARD_RE_LEV,BOARD_RE_SEQ,"
+					+"BOARD_READCOUNT,BOARD_DATE) values(?,?,?,?,?,?,?,?,?,?,now())";
+					
+					pstmt = con.prepareStatement(sql);
+					pstmt.setInt(1, num);
+					pstmt.setString(2, board.getBOARD_NAME());
+					pstmt.setString(3, board.getBOARD_PASS());
+					pstmt.setString(4, board.getBOARD_SUBJECT());
+					pstmt.setString(5, board.getBOARD_CONTENT());
+					pstmt.setString(6, ""); //답장에는 파일을 업로드하지 않음.
+					pstmt.setInt(7, re_ref);
+					pstmt.setInt(8, re_lev);
+					pstmt.setInt(9, re_seq);
+					pstmt.setInt(10, 0);
+					pstmt.executeUpdate();
+					
+					return num;
+					
+				}  catch (SQLException ex) {
+					System.out.println("답글 등록 에러! : " + ex);
+				} finally {
+					if (rs != null)
+						try {
+							rs.close();
+						} catch (SQLException ex) {
+						}
+					if (pstmt != null)
+						try {
+							pstmt.close();
+						} catch (SQLException ex) {
+					}
+					if(con != null)
+						try {
+							con.close();
+						} catch(SQLException ex) {
+							
+					}
+				}
+				return 0;
+	
 			}
 }

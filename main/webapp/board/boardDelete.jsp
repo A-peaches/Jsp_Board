@@ -14,9 +14,15 @@
     	text-align : center;
     }
 </style>
+<script>
+	function deleteConfirm() {
+		return confirm("정말로 삭제하시겠습니까?");
+	}
+</script>
 </head>
 <body>
-<form name="deleteForm" action"./BoardDeleteAction.bo?num=<%=num %>" method="post"/>
+<form name="deleteForm" action="./BoardDeleteAction.bo?num=<%=num %>" method="post"
+	onsubmit = "return deleteConfirm()"/>
  <div class="card text-center mt-5" style="margin:auto; width:30%">
   <div class="card-header">
     게시글 비밀번호를 입력해주세요.
@@ -25,8 +31,9 @@
    	<span>비밀번호 : </span><input type="password" class="form-control" name="BOARD_PASS"/>
   </div>
   <div class="card-footer text-body-secondary">
-    <a href="javascript:deleteForm.submit()" class="btn btn-danger">삭제</a>
-    <a href="javascript:history.go(-1)" class="btn btn-secondary">돌아가기</a>
+    <input type="submit" class="btn btn-danger" value="삭제"/>
+    <input type="button" onclick="window.history.go(-1)" class="btn btn-secondary"
+    value="돌아가기">
   </div>
 </div>
 
