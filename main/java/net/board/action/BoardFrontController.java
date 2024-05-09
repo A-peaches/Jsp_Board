@@ -27,12 +27,41 @@ public class BoardFrontController extends HttpServlet {
 		// 이를 위해 substring() 메서드를 사용하고, contextPath.length()를 시작 인덱스로 전달
 		// 예를 들어, /app/some/path에서 /app을 제거하면 /some/path가 command 변수에 저장. 
 		//이 방식은 URI 라우팅에서 매우 유용하게 사용.
-		
+		System.out.println(command +"로 이동중....");
 		ActionForward forward = null;
 		Action action = null;
 		
-		if(command.equals("/BoradList.bo")) {
+		if(command.equals("/BoardList.bo")) {
 			action = new BoardListAction();
+			try {
+				forward = action.execute(request, response);
+			}catch(Exception e) {
+				e.printStackTrace();
+			}
+		} else if(command.equals("/BoardWrite.bo")) {
+			forward = new ActionForward();
+			forward.setRedirect(false);
+			forward.setPath("./board/boardWrite.jsp");
+		} else if(command.equals("/BoardAddAction.bo")) {
+			action = new BoardAddAction();
+			try {
+				forward = action.execute(request, response);
+			}catch(Exception e) {
+				e.printStackTrace();
+			}
+		} else if(command.equals("/BoardDetailAction.bo")) {
+			action = new BoardDetailAction();
+			try {
+				forward = action.execute(request, response);
+			}catch(Exception e) {
+				e.printStackTrace();
+			}
+		}else if(command.equals("/BoardDelete.bo")) {
+				forward = new ActionForward();
+				forward.setRedirect(false);
+				forward.setPath("./board/boardDelete.jsp");
+		} else if(command.equals("/BoardDeleteAction.bo")) {
+			action = new BoardDeleteAction();
 			try {
 				forward = action.execute(request, response);
 			}catch(Exception e) {
@@ -41,10 +70,10 @@ public class BoardFrontController extends HttpServlet {
 		}
 		
 		if(forward.isRedirect()) {
-			response.sendRedirect(forward.getPath()); //리다이렉트 방식일떄
+			response.sendRedirect(forward.getPath()); //리다이렉트 방식일때
 		} else {
 			RequestDispatcher dispatcher = request.getRequestDispatcher(forward.getPath());
-			dispatcher.forward(request, response); 
+			dispatcher.forward(request, response); //forward방식일때 
 		}
 	}
 

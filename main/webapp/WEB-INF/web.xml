@@ -10,7 +10,7 @@
   	<servlet-name>BoardFrontController</servlet-name>
   	<url-pattern>*.bo</url-pattern>
   </servlet-mapping>
-  
+<!--   *.bo 로 요청이들어오면 , 무조건 컨트롤러로 가게끔 서블릿매핑처리. -->
   <display-name>Test1</display-name>
   <welcome-file-list>
     <welcome-file>index.html</welcome-file>
