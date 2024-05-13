@@ -84,7 +84,7 @@ img {
 		class="btn btn-secondary mx-3" style="margin-top: 20px" />
 	<input type=submit value="수량변경"
 		class="btn btn-warning" style="margin-top: 20px" />	
-	<input type=button onclick="check()" value="결제"
+	<input type=button onclick="window.location.href='./BasketCheckAction.ba'" value="결제"
 		class="btn btn-success mx-3" style="margin-top: 20px" />
 
 	</form>
