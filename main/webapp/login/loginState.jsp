@@ -28,7 +28,9 @@
 	<div class="my-5 w-50 mx-auto">
     💕 <%=session.getAttribute("user_id") %> 💕 님 환영합니다 !!  | 
 	<input type=button onclick="logout()" name="logout" value="Logout"
-	class="btn btn-danger btn-sm mx-3"/>
+	class="btn btn-danger btn-sm mx-3"/> | 
+	<input type=button onclick="window.location.href='./Main.lo'" name="Home" value="Home"
+	class="btn btn-primary btn-sm mx-3"/> 
 	<hr>
 	<script type="text/javascript">
 		function logout() {

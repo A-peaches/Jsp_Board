@@ -21,9 +21,24 @@ public class BasketChangeAction implements Action {
 		
 		HttpSession session = request.getSession();
 		String user_id = (String) session.getAttribute("user_id");
-		int ameCnt = Integer.parseInt(request.getParameter("AmeCnt"));
-		int doubleCnt = Integer.parseInt(request.getParameter("DoubleCnt"));
-		int otmealCnt = Integer.parseInt(request.getParameter("OtmealCnt"));
+		int ameCnt = 0;
+		int doubleCnt = 0;
+		int otmealCnt = 0;
+
+		String ameCntStr = request.getParameter("AmeCnt");
+		if (ameCntStr != null && !ameCntStr.isEmpty()) {
+		    ameCnt = Integer.parseInt(ameCntStr);
+		}
+
+		String doubleCntStr = request.getParameter("DoubleCnt");
+		if (doubleCntStr != null && !doubleCntStr.isEmpty()) {
+		    doubleCnt = Integer.parseInt(doubleCntStr);
+		}
+
+		String otmealCntStr = request.getParameter("OtmealCnt");
+		if (otmealCntStr != null && !otmealCntStr.isEmpty()) {
+			otmealCnt = Integer.parseInt(otmealCntStr);
+		}
 		
 		basket.removeAll(user_id);
 		
