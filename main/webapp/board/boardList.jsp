@@ -100,6 +100,7 @@
         <% } %>
     </div>
     <div class="text-end mb-4">
+    	<a href="./Main.lo" class="btn btn-warning">메인으로</a>
         <a href="./BoardWrite.bo" class="btn btn-success">글쓰기</a>
     </div>
 </div>

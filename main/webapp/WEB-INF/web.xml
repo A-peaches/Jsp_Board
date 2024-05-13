@@ -1,15 +1,42 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://xmlns.jcp.org/xml/ns/javaee" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_4_0.xsd" id="WebApp_ID" version="4.0">
+
+<!-- 게시판 -->  
   <servlet>
-  	<servlet-name>BoardFrontController</servlet-name>
-  	<servlet-class>
-  	net.board.action.BoardFrontController
-  	</servlet-class>
+	  <servlet-name>BoardFrontController</servlet-name>
+	  <servlet-class>
+		net.board.action.BoardFrontController
+	  </servlet-class>
   </servlet>
   <servlet-mapping>
-  	<servlet-name>BoardFrontController</servlet-name>
-  	<url-pattern>*.bo</url-pattern>
+	  	<servlet-name>BoardFrontController</servlet-name>
+	  	<url-pattern>*.bo</url-pattern>
   </servlet-mapping>
+  
+  <!-- 장바구니 -->
+    <servlet>
+	  <servlet-name>BasketController</servlet-name>
+	  <servlet-class>
+		net.basket.action.BasketController
+	  </servlet-class>
+  </servlet>
+  <servlet-mapping>
+	  	<servlet-name>BasketController</servlet-name>
+	  	<url-pattern>*.ba</url-pattern>
+  </servlet-mapping>
+<!--  로그인 -->
+    <servlet>
+	  <servlet-name>LoginController</servlet-name>
+	  <servlet-class>
+		net.login.action.LoginController
+	  </servlet-class>
+  </servlet>
+  <servlet-mapping>
+	  	<servlet-name>LoginController</servlet-name>
+	  	<url-pattern>*.lo</url-pattern>
+  </servlet-mapping>
+  
+
 <!--   *.bo 로 요청이들어오면 , 무조건 컨트롤러로 가게끔 서블릿매핑처리. -->
   <display-name>Test1</display-name>
   <welcome-file-list>

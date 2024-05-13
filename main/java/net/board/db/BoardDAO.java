@@ -126,7 +126,7 @@ public class BoardDAO {//게시판 db를 처리하는 클래스
 				String sql="";
 				
 				int result = 0;
-				System.out.println("여기까지오나용?");
+			
 				try {
 					con = ds.getConnection();
 					pstmt = con.prepareStatement("select max(board_num) from board");
