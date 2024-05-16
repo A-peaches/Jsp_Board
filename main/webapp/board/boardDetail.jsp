@@ -2,9 +2,10 @@
     pageEncoding="UTF-8"%>
 <%@ page import="net.board.db.*" %>
 <% request.setCharacterEncoding("UTF-8"); %>
-<%
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%-- <%
 	BoardBean board = (BoardBean)request.getAttribute("boarddata");
-%>  
+%>   --%>
 <head>
 <meta charset="UTF-8">
 <link rel="styleSheet" type="text/css" href="../../CSS.css"/>
@@ -59,37 +60,41 @@
 		<br>
 		<div style='text-align:left;' >
 		<span class="form-label">제목 :</span> 
-		<span><%= board.getBOARD_SUBJECT() %></span>
+		<span>${boarddata.BOARD_SUBJECT}</span>
 		</div>
 		<span style="text-align:left;">
 		<span class="form-label">작성자 :</span> 
-		<span><%= board.getBOARD_NAME() %></span>
+		<span>${boarddata.BOARD_NAME}</span>
 		</span>
 		<br><br><hr class="dotted"><br>
 		<div style="display:flex; flex-direction:column;">
 		  <span class="form-label">내용 :</span>
 		  <span>
 		  <pre style="text-align : left; margin-left : 50px">
-		  <%= board.getBOARD_CONTENT() %>
+		  ${boarddata.BOARD_CONTENT}
 		  </pre>
 		  </span>
 		</div>
 		<br>
 		<span style="text-align:left;">
 		<span class="form-label">첨부파일 :</span> 
-		<%if(!(board.getBOARD_FILE()==null)){ %>
-		<a href="./boardupload/<%=board.getBOARD_FILE()%>">
-			<%=board.getBOARD_FILE() %>
+		<c:if test="${not empty boarddata.BOARD_FILE}" >
+<%-- 		<%if(!(board.getBOARD_FILE()==null)){ %> --%>
+		<a href="./boardupload/${boarddata.BOARD_FILE}">
+			${boarddata.BOARD_FILE}
 		</a>
-		<%} else { %>
+		</c:if>
+		<%-- <%} else { %> --%>
+		<c:if test="${empty boarddata.BOARD_FILE}" >
 		첨부파일 없음
-		<%}%>
+		<%-- <%}%> --%>
+		</c:if>
 		</span><br>
 		<div style="margin-top:10px;">
 		<a href="./BoardList.bo" name="prev" class="btn btn-secondary">목록</a> 
-		<a href="./BoardReplyAction.bo?num=<%=board.getBOARD_NUM() %>"class="btn btn-warning">답변</a>
-		<a href="./BoardModify.bo?num=<%=board.getBOARD_NUM() %>" class="btn btn-success">수정</a>
-		<a href="./BoardDelete.bo?num=<%=board.getBOARD_NUM() %>" class="btn btn-danger">삭제</a> 
+		<a href="./BoardReplyAction.bo?num=${boarddata.BOARD_NUM }"class="btn btn-warning">답변</a>
+		<a href="./BoardModify.bo?num=${boarddata.BOARD_NUM }" class="btn btn-success">수정</a>
+		<a href="./BoardDelete.bo?num=${boarddata.BOARD_NUM }" class="btn btn-danger">삭제</a> 
 		</div>
 	</form>
 	</div>

@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page import="net.login.db.LoginBean" %>
 <%@ page import="java.util.*" %>
 <% request.setCharacterEncoding("UTF-8"); %>   
@@ -19,13 +20,13 @@ td {
 <title>Member list</title>
 </head>
 <% 
-  ArrayList memberList = (ArrayList)request.getAttribute("memberList"); 
-  boolean isAdmin = (boolean)session.getAttribute("isadmin");
+  /* ArrayList memberList = (ArrayList)request.getAttribute("memberList"); */ 
+  /* boolean isAdmin = (boolean)session.getAttribute("isadmin"); */
 %>
  <script>
 	
 	function loginCheck() {
-		var isAdmin = <%= isAdmin %>;
+		var isAdmin = ${ isAdmin };
 		if(!isAdmin) {
 		  alert("관리자만 이용할 수 있습니다!");
 		  window.location.href = "/Main.lo";
@@ -49,28 +50,31 @@ td {
 			<td>info</td>
 			<td>삭제</td>
 		</tr>
-		<%if (memberList != null) { %> 
-		<% for (int i =0 ; i<memberList.size(); i++) { 
+<%-- 		<%if (memberList != null) { %>  --%>
+		<c:if test="${not empty memberList }">
+<%-- 		<% for (int i =0 ; i<memberList.size(); i++) { 
 			LoginBean lb = (LoginBean) memberList.get(i);
-		%>
+		%> --%>
+			<c:forEach items="${memberList}" var="lb">
 			<tr>
-			<td><%= lb.getUser_id() %></td>
-			<td><%= lb.getUser_pw() %></td>
-			<td><%= lb.getUser_name() %></td>
-			<td><%= lb.getUser_email() %></td>
-			<td><%= lb.getBirth() %></td>
-			<td><%= lb.getHobby() %></td>
-			<td><%= lb.getInfo() %></td>
+			<td>${ lb.user_id }</td>
+			<td>${ lb.user_pw }</td>
+			<td>${ lb.user_name } </td>
+			<td>${ lb.user_email } </td>
+			<td>${ lb.birth } </td>
+			<td>${ lb.hobby }</td>
+			<td>${ lb.info }</td>
 			<td><input type="button"  value="삭제" 
-			onclick ="window.location.href='MemberDelete.lo?user_id=<%=lb.getUser_id() %>'"
+			onclick ="window.location.href='MemberDelete.lo?user_id=${lb.user_id}'"
 			class="btn btn-sm btn-danger"/></td>
 			</tr>
-		<%} %>
-		<% } else { %>
+			</c:forEach>
+		</c:if>
+		<c:if test="${empty memberList}"> 
 			<tr>
 			<td colspan="5">회원이 존재하지 않습니다.</td>
 			</tr>
-		<% } %>
+		</c:if>
 	</table>
 	<br>
 	<a href="./Main.lo" class="btn btn-sm btn-warning">메인으로</a>

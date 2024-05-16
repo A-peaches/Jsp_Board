@@ -4,7 +4,8 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<% response.sendRedirect("./Login.lo"); %>
+<% response.sendRedirect("./Login.lo"); %> 
+<!-- 요기서 시작합니당 -->
 <title>MVC 게시판</title>
 </head>
 <body>

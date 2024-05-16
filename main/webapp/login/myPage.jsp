@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page import="net.login.db.LoginBean" %>
 <% request.setCharacterEncoding("UTF-8"); %>   
 <!DOCTYPE html>
@@ -24,21 +25,30 @@
 <div class="card" style="width: 20rem;">
   <div class="card-body">
     <h5 class="card-title">나의 정보</h5>
-    <p class="card-text">ID: <%= userData.getUser_id() %></p>
+<%--     <p class="card-text">ID: <%= userData.getUser_id() %></p>
     <p class="card-text">PW: <%= userData.getUser_pw() %></p>
     <p class="card-text">Email: <%= userData.getUser_email() %></p>
     <p class="card-text">Name: <%= userData.getUser_name() %></p>
     <p class="card-text">Birth: <%= userData.getBirth() %></p>
     <p class="card-text">Hobby: <%= userData.getHobby() %></p>
-    <p class="card-text">Info: <%= userData.getInfo() %></p>
+    <p class="card-text">Info: <%= userData.getInfo() %></p> --%>
+    <p class="card-text">ID: ${loginData.user_id }</p>
+    <p class="card-text">PW: ${loginData.user_pw }</p>
+    <p class="card-text">Email: ${loginData.user_email }</p>
+    <p class="card-text">Name: ${ loginData.user_name }</p>
+    <p class="card-text">Birth: ${loginData.birth }</p>
+    <p class="card-text">Hobby: ${loginData.hobby }</p>
+    <p class="card-text">Info: ${loginData.info }</p>
   </div>
 </div>
 </div>
 <div class="my-3">
 <a href="./Main.lo" class="btn btn-sm btn-warning mx-3">메인으로</a>
-<%if (userData.getIsadmin()) { %>
-<a href="./MemberListAction.lo" class="btn btn-sm btn-success">회원 목록 조회</a> 
-<%} %>
+<%-- <%if (userData.getIsadmin()) { %> --%>
+<c:if test="${loginData.isadmin}">
+    <a href="./MemberListAction.lo" class="btn btn-sm btn-success">회원 목록 조회</a>
+</c:if>
+<%-- <%} %> --%>
 
 </div>
 

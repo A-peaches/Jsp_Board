@@ -2,9 +2,10 @@
     pageEncoding="UTF-8"%>
 <%@ page import="net.board.db.*" %>
 <% request.setCharacterEncoding("UTF-8"); %>   
-<%
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%-- <%
 	BoardBean board = (BoardBean)request.getAttribute("boarddata");
-%>
+%> --%>
 <head>
 <meta charset="UTF-8">
 <link rel="styleSheet" type="text/css" href="../../CSS.css"/>
@@ -55,30 +56,24 @@
 	<div class="box" >
 	<form action="./BoardModifyAction.bo" method="post" name="modifyForm"
 	style="text-align:left;">
-	<input type="hidden" name="BOARD_NUM" value="<%=board.getBOARD_NUM() %>">
+	<input type="hidden" name="BOARD_NUM" value="${boarddata.BOARD_NUM}">
 		<div style='margin:50px 0px 10px 0px; text-align:left;' >
 		<span class="form-label">작성자 :</span> 
 		<input type="text" name="BOARD_NAME" class="form-input" 
-		placeholder="닉네임을 입력해주세요." value="<%=board.getBOARD_NAME() %>"/>
+		placeholder="닉네임을 입력해주세요." value="${boarddata.BOARD_NAME}"/>
 		</div>
 		<span style="text-align:left;">
 		<span class="form-label">제목 :</span> 
 		<input type="text" name="BOARD_SUBJECT" class="form-input" 
-		placeholder="제목을 작성해주세요." value="<%=board.getBOARD_SUBJECT()%>">
+		placeholder="제목을 작성해주세요." value="${boarddata.BOARD_SUBJECT}"/>
 		</span><br>
 		<div style="display:flex; flex-direction:column;">
 		  <span class="form-label" style="align-self:flex-start;">내용 :</span>
 		  <textarea name="BOARD_CONTENT" id="textarea" class="form-input" 
-		  placeholder="내용을 작성해주세요." ><%=board.getBOARD_CONTENT()%></textarea>
+		  placeholder="내용을 작성해주세요." >${boarddata.BOARD_CONTENT}</textarea>
 		</div>
 		<br>
 		<span style="text-align:left;">
-		<span class="form-label">파일 :</span> 
-		<%if(board.getBOARD_FILE() != null) { %>
-		<%=board.getBOARD_FILE() %>
-		<%} else { %>
-			첨부파일없음
-		<%} %>
 		</span><br>
 		<span>
 		<span class="form-label">비밀번호 :</span> 

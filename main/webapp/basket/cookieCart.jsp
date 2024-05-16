@@ -3,6 +3,7 @@
 <% request.setCharacterEncoding("UTF-8"); %>   
 <%@ page import = "java.util.*" %>
 <%@ page import = "net.basket.db.BasketBean" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -88,7 +89,7 @@ img {
 		class="btn btn-success mx-3" style="margin-top: 20px" />
 
 	</form>
-
+<!-- getFormat은 필드가 없는 메서드여서 jstl로 못바꿨습니다 ㅜㅜ 양해부탁드립니당 -->
 <script>
 
 	// 수량 증가

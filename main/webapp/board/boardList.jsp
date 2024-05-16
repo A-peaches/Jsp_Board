@@ -2,15 +2,15 @@
 <%@ page import="java.util.*"%>
 <%@ page import="java.text.SimpleDateFormat" %>
 <%@ page import="net.board.db.*" %>
- 
-<%
+ <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%-- <%
 	List boardList=(List)request.getAttribute("boardlist");
 	int listcount=((Integer)request.getAttribute("listcount")).intValue();
 	int nowpage=((Integer)request.getAttribute("page")).intValue();
 	int maxpage=((Integer)request.getAttribute("maxpage")).intValue();
 	int startpage=((Integer)request.getAttribute("startpage")).intValue();
 	int endpage=((Integer)request.getAttribute("endpage")).intValue();
-%>
+%> --%>
 <% request.setCharacterEncoding("UTF-8"); %>
 <html>
 <head>
@@ -57,34 +57,40 @@
                     <th>조회수</th>
                 </tr>
             </thead>
-            <tbody>
+            <tbody><%-- 
                 <% for (int i = 0; i < boardList.size(); i++) {
                     BoardBean bl = (BoardBean) boardList.get(i);
-                %>
+                %> --%>
+                <c:forEach var="bl" items="${boardlist}">
                 <tr>
-                    <td><%= bl.getBOARD_NUM() %></td>
+                    <td>${bl.BOARD_NUM}</td>
                     <td class="text-start">
-					<%if(bl.getBOARD_RE_LEV()!=0){ %>
+                    <c:if test="${bl.BOARD_RE_LEV != 0}">
+                   		<c:forEach begin="0" end="${bl.BOARD_RE_LEV * 2}" var="a">
+                       	&nbsp;
+                   		</c:forEach>
+               		</c:if>
+					<%-- <%if(bl.getBOARD_RE_LEV()!=0){ %>
 						<%for(int a=0;a<=bl.getBOARD_RE_LEV()*2;a++){ %>
 						&nbsp;
 						<%} %>
 						
 					<%}else{ %>
 						
-					<%} %>
-					<a href="./BoardDetailAction.bo?num=<%=bl.getBOARD_NUM()%>">
-						<%=bl.getBOARD_SUBJECT()%>
+					<%} %> --%>
+					<a href="./BoardDetailAction.bo?num=${bl.BOARD_NUM}">
+						<%-- <%=bl.getBOARD_SUBJECT()%> --%> ${bl.BOARD_SUBJECT}
 					</a></td>
-					<td><%= bl.getBOARD_NAME() %></td>
-                    <td><%= bl.getBOARD_DATE() %></td>
-                    <td><%= bl.getBOARD_READCOUNT() %></td>
+					<td><%-- <%= bl.getBOARD_NAME() %> --%>${bl.BOARD_NAME}</td>
+                    <td><%-- <%= bl.getBOARD_DATE() %> --%>${bl.BOARD_DATE}</td>
+                    <td><%-- <%= bl.getBOARD_READCOUNT() %> --%>${bl.BOARD_READCOUNT}</td>
                 </tr>
-                <% } %>
+                </c:forEach>
             </tbody>
         </table>
     </div>
     <div class="page-navigation">
-        <% if (nowpage > 1) { %>
+       <%--  <% if (nowpage > 1) { %>
         <a href="./BoardList.bo?page=<%= nowpage - 1 %>">
         <span>이전</span></a>
         <% } %>
@@ -97,7 +103,27 @@
         <% } %>
         <% if (nowpage < maxpage) { %>
         <a href="./BoardList.bo?page=<%= nowpage + 1 %>"><span>다음</span></a>
-        <% } %>
+        <% } %> --%>
+          <c:if test="${page > 1}">
+        <a href="./BoardList.bo?page=${page - 1}">
+            <span>이전</span>
+        </a>
+    </c:if>
+    <c:forEach var="a" begin="${startpage}" end="${endpage}">
+        <c:choose>
+            <c:when test="${a == page}">
+                <span>[${a}]</span>
+            </c:when>
+            <c:otherwise>
+                <a href="./BoardList.bo?page=${a}"><span>[${a}]</span></a>
+            </c:otherwise>
+        </c:choose>
+    </c:forEach>
+    <c:if test="${page < maxpage}">
+        <a href="./BoardList.bo?page=${page + 1}">
+            <span>다음</span>
+        </a>
+    </c:if>
     </div>
     <div class="text-end mb-4">
     	<a href="./Main.lo" class="btn btn-warning">메인으로</a>

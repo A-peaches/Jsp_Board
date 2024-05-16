@@ -2,9 +2,10 @@
     pageEncoding="UTF-8"%>
 <%@ page import="net.board.db.*" %>
 <% request.setCharacterEncoding("UTF-8"); %>   
-<%
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%-- <%
 	BoardBean board = (BoardBean)request.getAttribute("boarddata");
-%>
+%> --%>
 <head>
 <meta charset="UTF-8">
 <link rel="styleSheet" type="text/css" href="../../CSS.css"/>
@@ -55,10 +56,10 @@
 	<div class="box" >
 	<form action="./BoardReplyView.bo" method="post" name="modifyForm"
 	style="text-align:left;">
-	<input type="hidden" name="BOARD_NUM" value="<%=board.getBOARD_NUM() %>">
-	<input type="hidden" name="BOARD_RE_REF" value="<%=board.getBOARD_RE_REF() %>">
-	<input type="hidden" name="BOARD_RE_LEV" value="<%=board.getBOARD_RE_LEV() %>">
-	<input type="hidden" name="BOARD_RE_SEQ" value="<%=board.getBOARD_RE_SEQ() %>">
+	<input type="hidden" name="BOARD_NUM" value="${boarddata.BOARD_NUM}">
+	<input type="hidden" name="BOARD_RE_REF" value="${boarddata.BOARD_RE_REF}">
+	<input type="hidden" name="BOARD_RE_LEV" value="${boarddata.BOARD_RE_LEV}">
+	<input type="hidden" name="BOARD_RE_SEQ" value="${boarddata.BOARD_RE_SEQ}">
 	
 		<div style='margin:50px 0px 10px 0px; text-align:left;' >
 		<span class="form-label">작성자 :</span> 
@@ -71,7 +72,7 @@
 		<span style="text-align:left;">
 		<span class="form-label">제목 :</span> 
 		<input type="text" name="BOARD_SUBJECT" class="form-input" placeholder="제목을 작성해주세요."
-		value="Re: <%=board.getBOARD_SUBJECT() %>" >
+		value="Re: ${boarddata.BOARD_SUBJECT}" >
 		</span><br>
 		<div style="display:flex; flex-direction:column;">
 		  <span class="form-label" style="align-self:flex-start;">내용 :</span>
